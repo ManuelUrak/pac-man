@@ -10,8 +10,12 @@ const tileMap = new TileMap(tileSize);
 // Game loop
 
 function gameLoop() {
-  tileMap.draw();
+  tileMap.draw(ctx);
 }
+
+// Define the canvas size
+
+tileMap.setCanvasSize(canvas);
 
 // Run the game at 75fps
 
