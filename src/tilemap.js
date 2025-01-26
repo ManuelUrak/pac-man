@@ -1,5 +1,7 @@
 /* File for drawing the tilemap */
 
+import Pacman from "./pacman.js";
+
 export default class TileMap {
   constructor(tileSize) {
     this.tileSize = tileSize;
@@ -29,7 +31,7 @@ export default class TileMap {
 
   map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
@@ -54,6 +56,7 @@ export default class TileMap {
             break;
           case 0:
             this.#drawDot(ctx, column, row, this.tileSize);
+            break;
         }
       }
     }
@@ -81,6 +84,27 @@ export default class TileMap {
       size,
       size
     );
+  }
+
+  //Return Pac-Man to the map
+
+  getPacman(velocity) {
+    for (let row = 0; row < this.map.length; row++) {
+      for (let column = 0; column < this.map[row].length; column++) {
+        let tile = this.map[row][column];
+        if (tile === 4) {
+          this.map[row][column] = 0;
+
+          return new Pacman(
+            column * this.tileSize,
+            row * this.tileSize,
+            this.tileSize,
+            velocity,
+            this
+          );
+        }
+      }
+    }
   }
 
   //Define the canvas size
