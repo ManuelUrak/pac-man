@@ -52,6 +52,8 @@ export default class TileMap {
           case 1:
             this.#drawWall(ctx, column, row, this.tileSize);
             break;
+          case 0:
+            this.#drawDot(ctx, column, row, this.tileSize);
         }
       }
     }
@@ -62,6 +64,18 @@ export default class TileMap {
   #drawWall(ctx, column, row, size) {
     ctx.drawImage(
       this.wall,
+      column * this.tileSize,
+      row * this.tileSize,
+      size,
+      size
+    );
+  }
+
+  // Draw the dots
+
+  #drawDot(ctx, column, row, size) {
+    ctx.drawImage(
+      this.yellowDot,
       column * this.tileSize,
       row * this.tileSize,
       size,
