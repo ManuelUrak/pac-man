@@ -21,6 +21,7 @@ export default class Pacman {
   //Draw Pac-Man
 
   draw(ctx) {
+    this.#move();
     ctx.drawImage(
       this.pacmanImages[this.pacmanImageIndex],
       this.x,
@@ -97,4 +98,32 @@ export default class Pacman {
       }
     }
   };
+
+  //Move Pac-Man
+
+  #move() {
+    if (this.currentMovingDirection !== this.requestedMovingDirection) {
+      if (
+        Number.isInteger(this.x / this.tileSize) &&
+        Number.isInteger(this.y / this.tileSize)
+      ) {
+        this.currentMovingDirection = this.requestedMovingDirection;
+      }
+    }
+
+    switch (this.currentMovingDirection) {
+      case MovingDirection.up:
+        this.y -= this.velocity;
+        break;
+      case MovingDirection.down:
+        this.y += this.velocity;
+        break;
+      case MovingDirection.left:
+        this.x -= this.velocity;
+        break;
+      case MovingDirection.right:
+        this.x += this.velocity;
+        break;
+    }
+  }
 }
