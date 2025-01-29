@@ -20,6 +20,8 @@ export default class Pacman {
 
     this.wakaSound = new Audio("../sounds/waka.wav");
 
+    this.madeFirstMove = false;
+
     document.addEventListener("keydown", this.#keydown);
 
     this.#loadPacmanImages();
@@ -93,6 +95,8 @@ export default class Pacman {
       } else {
         this.requestedMovingDirection = MovingDirection.up;
       }
+
+      this.madeFirstMove = true;
     }
 
     //Key down input
@@ -103,6 +107,8 @@ export default class Pacman {
       } else {
         this.requestedMovingDirection = MovingDirection.down;
       }
+
+      this.madeFirstMove = true;
     }
 
     //Key left input
@@ -113,6 +119,8 @@ export default class Pacman {
       } else {
         this.requestedMovingDirection = MovingDirection.left;
       }
+
+      this.madeFirstMove = true;
     }
 
     //Key right input
@@ -123,6 +131,8 @@ export default class Pacman {
       } else {
         this.requestedMovingDirection = MovingDirection.right;
       }
+
+      this.madeFirstMove = true;
     }
   };
 

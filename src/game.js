@@ -15,7 +15,13 @@ const enemies = tileMap.getEnemies(velocity);
 function gameLoop() {
   tileMap.draw(ctx);
   pacman.draw(ctx);
-  enemies.forEach((enemy) => enemy.draw(ctx));
+  enemies.forEach((enemy) => enemy.draw(ctx, pause()));
+}
+
+// Make the Ghosts not move before Pacman does
+
+function pause() {
+  return !pacman.madeFirstMove;
 }
 
 // Define the canvas size
