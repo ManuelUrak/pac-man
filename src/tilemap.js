@@ -17,6 +17,15 @@ export default class TileMap {
 
     this.yellowDot = new Image();
     this.yellowDot.src = "../imgs/yellowDot.png";
+
+    //Getting the asset for the pink dots
+
+    this.pinkDot = new Image();
+    this.pinkDot.src = "../imgs/pinkDot.png";
+
+    this.powerDot = this.pinkDot;
+    this.powerDotAnimationTimerDefault = 30;
+    this.powerDotAnimationTimer = this.powerDotAnimationTimerDefault;
   }
 
   /* 
@@ -33,11 +42,11 @@ export default class TileMap {
 
   map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 7, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
     [1, 0, 1, 6, 0, 0, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 7, 1, 0, 0, 0, 1, 0, 1, 7, 1],
     [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
@@ -58,6 +67,9 @@ export default class TileMap {
             break;
           case 0:
             this.#drawDot(ctx, column, row, this.tileSize);
+            break;
+          case 7:
+            this.#drawPowerDot(ctx, column, row, this.tileSize);
             break;
           default:
             this.#drawBlank(ctx, column, row, this.tileSize);
@@ -96,6 +108,24 @@ export default class TileMap {
       size,
       size
     );
+  }
+
+  // Draw the Power Dot
+
+  #drawPowerDot(ctx, column, row, size) {
+    this.powerDotAnimationTimer--;
+
+    if (this.powerDotAnimationTimer === 0) {
+      this.powerDotAnimationTimer = this.powerDotAnimationTimerDefault;
+
+      if (this.powerDot == this.pinkDot) {
+        this.powerDot = this.yellowDot;
+      } else {
+        this.powerDot = this.pinkDot;
+      }
+    }
+
+    ctx.drawImage(this.powerDot, column * size, row * size, size, size);
   }
 
   //Return Pac-Man to the map
