@@ -222,6 +222,8 @@ export default class Pacman {
     }
   }
 
+  //Play sound when Pac-Man eats a power dot
+
   #eatPowerDot() {
     if (this.tileMap.eatPowerDot(this.x, this.y)) {
       this.powerDotSound.play();
