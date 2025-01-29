@@ -118,6 +118,10 @@ export default class TileMap {
   // Wall collison detection
 
   didCollideWithEnvironment(x, y, direction) {
+    if (direction == null) {
+      return;
+    }
+
     if (
       Number.isInteger(x / this.tileSize) &&
       Number.isInteger(y / this.tileSize)

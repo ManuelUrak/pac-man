@@ -13,6 +13,9 @@ export default class Pacman {
     this.currentMovingDirection = null;
     this.requestedMovingDirection = null;
 
+    this.pacmanAnimationTimerDefault = 10;
+    this.pacmanAnimationTimer = null;
+
     document.addEventListener("keydown", this.#keydown);
 
     this.#loadPacmanImages();
@@ -22,6 +25,7 @@ export default class Pacman {
 
   draw(ctx) {
     this.#move();
+    this.#animate();
     ctx.drawImage(
       this.pacmanImages[this.pacmanImageIndex],
       this.x,
@@ -126,7 +130,14 @@ export default class Pacman {
         this.currentMovingDirection
       )
     ) {
+      this.pacmanAnimationTimer = null;
+      this.pacmanImageIndex = 1;
       return;
+    } else if (
+      this.currentMovingDirection != null &&
+      this.pacmanAnimationTimer == null
+    ) {
+      this.pacmanAnimationTimer = this.pacmanAnimationTimerDefault;
     }
 
     switch (this.currentMovingDirection) {
@@ -142,6 +153,25 @@ export default class Pacman {
       case MovingDirection.right:
         this.x += this.velocity;
         break;
+    }
+  }
+
+  //Pac-Man's mouth animation
+
+  #animate() {
+    if (this.pacmanAnimationTimer == null) {
+      return;
+    }
+
+    this.pacmanAnimationTimer--;
+
+    if (this.pacmanAnimationTimer == 0) {
+      this.pacmanAnimationTimer = this.pacmanAnimationTimerDefault;
+      this.pacmanImageIndex++;
+
+      if (this.pacmanImageIndex == this.pacmanImages.length) {
+        this.pacmanImageIndex = 0;
+      }
     }
   }
 }
