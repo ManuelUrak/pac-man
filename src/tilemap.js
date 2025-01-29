@@ -58,6 +58,9 @@ export default class TileMap {
           case 0:
             this.#drawDot(ctx, column, row, this.tileSize);
             break;
+          default:
+            this.#drawBlank(ctx, column, row, this.tileSize);
+            break;
         }
       }
     }
@@ -73,6 +76,13 @@ export default class TileMap {
       size,
       size
     );
+  }
+
+  // Draw empty space
+
+  #drawBlank(ctx, column, row, size) {
+    ctx.fillStyle = "black";
+    ctx.fillRect(column * this.tileSize, row * this.tileSize, size, size);
   }
 
   // Draw the dots
@@ -157,6 +167,23 @@ export default class TileMap {
       const tile = this.map[row][column];
 
       if (tile === 1) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  // Make Pac-Man eat a dot
+
+  eatDot(x, y) {
+    const row = y / this.tileSize;
+    const column = x / this.tileSize;
+
+    if (Number.isInteger(row) && Number.isInteger(column)) {
+      if (this.map[row][column] === 0) {
+        this.map[row][column] = 5;
+
         return true;
       }
     } else {
