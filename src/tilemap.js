@@ -1,6 +1,7 @@
 /* File for drawing the tilemap */
 
 import Pacman from "./pacman.js";
+import Enemy from "./enemy.js";
 import MovingDirection from "./moving-direction.js";
 
 export default class TileMap {
@@ -34,13 +35,13 @@ export default class TileMap {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 6, 0, 0, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
 
@@ -116,6 +117,34 @@ export default class TileMap {
         }
       }
     }
+  }
+
+  // Return ghosts to the map
+
+  getEnemies(velocity) {
+    const enemies = [];
+
+    for (let row = 0; row < this.map.length; row++) {
+      for (let column = 0; column < this.map[row].length; column++) {
+        const tile = this.map[row][column];
+
+        if (tile == 6) {
+          this.map[row][column] = 0;
+
+          enemies.push(
+            new Enemy(
+              column * this.tileSize,
+              row * this.tileSize,
+              this.tileSize,
+              velocity,
+              this
+            )
+          );
+        }
+      }
+    }
+
+    return enemies;
   }
 
   //Define the canvas size

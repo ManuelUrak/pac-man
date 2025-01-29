@@ -8,12 +8,14 @@ const tileSize = 32;
 const tileMap = new TileMap(tileSize);
 const velocity = 2;
 const pacman = tileMap.getPacman(velocity);
+const enemies = tileMap.getEnemies(velocity);
 
 // Game loop
 
 function gameLoop() {
   tileMap.draw(ctx);
   pacman.draw(ctx);
+  enemies.forEach((enemy) => enemy.draw(ctx));
 }
 
 // Define the canvas size
