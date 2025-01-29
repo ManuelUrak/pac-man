@@ -19,6 +19,7 @@ export default class Pacman {
     this.pacmanRotation = this.Rotation.right;
 
     this.wakaSound = new Audio("../sounds/waka.wav");
+    this.powerDotSound = new Audio("../sounds/power_dot.wav");
 
     this.madeFirstMove = false;
 
@@ -42,6 +43,7 @@ export default class Pacman {
     this.#move();
     this.#animate();
     this.#eatDot();
+    this.#eatPowerDot();
 
     //Draw Pac-Man with rotation, depending on his direction
 
@@ -217,6 +219,12 @@ export default class Pacman {
   #eatDot() {
     if (this.tileMap.eatDot(this.x, this.y)) {
       this.wakaSound.play();
+    }
+  }
+
+  #eatPowerDot() {
+    if (this.tileMap.eatPowerDot(this.x, this.y)) {
+      this.powerDotSound.play();
     }
   }
 }

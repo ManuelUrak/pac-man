@@ -249,4 +249,23 @@ export default class TileMap {
       return false;
     }
   }
+
+  // Make Pac-Man eat a power dot
+
+  eatPowerDot(x, y) {
+    const row = y / this.tileSize;
+    const column = x / this.tileSize;
+
+    if (Number.isInteger(row) && Number.isInteger(column)) {
+      const tile = this.map[row][column];
+
+      if (tile === 7) {
+        this.map[row][column] = 5;
+
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
 }
