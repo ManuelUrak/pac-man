@@ -20,7 +20,7 @@ let gameWin = false;
 
 function gameLoop() {
   tileMap.draw(ctx);
-  pacman.draw(ctx, pause());
+  pacman.draw(ctx, pause(), enemies);
   enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
   checkGameOver();
 }

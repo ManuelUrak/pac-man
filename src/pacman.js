@@ -20,6 +20,7 @@ export default class Pacman {
 
     this.wakaSound = new Audio("../sounds/waka.wav");
     this.powerDotSound = new Audio("../sounds/power_dot.wav");
+    this.eatGhostSound = new Audio("../sounds/eat_ghost.wav");
 
     this.powerDotActive = false;
     this.powerDotAboutToExpire = false;
@@ -43,7 +44,7 @@ export default class Pacman {
 
   //Draw Pac-Man
 
-  draw(ctx, pause) {
+  draw(ctx, pause, enemies) {
     if (!pause) {
       this.#move();
       this.#animate();
@@ -51,6 +52,7 @@ export default class Pacman {
 
     this.#eatDot();
     this.#eatPowerDot();
+    this.#eatGhost(enemies);
 
     //Draw Pac-Man with rotation, depending on his direction
 
@@ -251,6 +253,19 @@ export default class Pacman {
       }, 1000 * 3);
 
       this.timers.push(powerDotAboutToExpireTimer);
+    }
+  }
+
+  // Make Pac-Man be able to eat a ghost when the power dot is active and play a sound
+
+  #eatGhost(enemies) {
+    if (this.powerDotActive) {
+      const collideEnemies = enemies.filter((enemy) => enemy.collideWith(this));
+
+      collideEnemies.forEach((enemy) => {
+        enemies.splice(enemies.indexOf(enemy), 1);
+        this.eatGhostSound.play();
+      });
     }
   }
 }
