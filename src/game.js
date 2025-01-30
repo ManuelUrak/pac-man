@@ -20,7 +20,7 @@ let gameWin = false;
 
 function gameLoop() {
   tileMap.draw(ctx);
-  pacman.draw(ctx);
+  pacman.draw(ctx, pause());
   enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
   checkGameOver();
 }
@@ -45,10 +45,10 @@ function isGameOver() {
   );
 }
 
-// Make the Ghosts not move before Pacman does
+// Make the Ghosts not move before Pacman does and stop the game when it is game over
 
 function pause() {
-  return !pacman.madeFirstMove;
+  return !pacman.madeFirstMove || gameOver;
 }
 
 // Define the canvas size

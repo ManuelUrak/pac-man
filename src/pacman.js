@@ -43,9 +43,12 @@ export default class Pacman {
 
   //Draw Pac-Man
 
-  draw(ctx) {
-    this.#move();
-    this.#animate();
+  draw(ctx, pause) {
+    if (!pause) {
+      this.#move();
+      this.#animate();
+    }
+
     this.#eatDot();
     this.#eatPowerDot();
 

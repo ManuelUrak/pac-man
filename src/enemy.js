@@ -33,6 +33,23 @@ export default class Enemy {
     this.#setImage(ctx, pacman);
   }
 
+  // Check if the Ghost or Ghosts collided with Pacman
+
+  collideWith(pacman) {
+    const size = this.tileSize / 2;
+
+    if (
+      this.x < pacman.x + size &&
+      this.x + size > pacman.x &&
+      this.y < pacman.y + size &&
+      this.y + size > pacman.y
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // Set Ghosts image asset depending on the state of the power dot
 
   #setImage(ctx, pacman) {
