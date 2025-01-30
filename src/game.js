@@ -5,10 +5,10 @@ import TileMap from "./tilemap.js";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 32;
-const tileMap = new TileMap(tileSize);
+let tileMap = new TileMap(tileSize);
 const velocity = 2;
-const pacman = tileMap.getPacman(velocity);
-const enemies = tileMap.getEnemies(velocity);
+let pacman = tileMap.getPacman(velocity);
+let enemies = tileMap.getEnemies(velocity);
 
 const gameOverSound = new Audio("../sounds/gameOver.wav");
 const gameWinSound = new Audio("../sounds/gameWin.wav");
@@ -72,6 +72,10 @@ function drawGameEnd() {
 
     ctx.fillStyle = gradient;
     ctx.fillText(text, 10, canvas.height / 2);
+
+    ctx.font = "30px comic sans";
+    ctx.fillStyle = "white";
+    ctx.fillText("Press Spacebar to Restart", 50, canvas.height / 2 + 50);
   }
 }
 
@@ -82,6 +86,21 @@ function isGameOver() {
     (enemy) => !pacman.powerDotActive && enemy.collideWith(pacman)
   );
 }
+
+// Reset game state when the game is game over
+
+function resetGame() {
+  tileMap = new TileMap(tileSize);
+  pacman = tileMap.getPacman(velocity);
+  enemies = tileMap.getEnemies(velocity);
+  gameOver = false;
+}
+
+document.addEventListener("keydown", (event) => {
+  if (gameOver && event.key === " ") {
+    resetGame();
+  }
+});
 
 // Make the Ghosts not move before Pacman does and stop the game when it is game over or the game is won
 

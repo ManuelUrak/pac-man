@@ -123,9 +123,6 @@ export default class Pacman {
       case "ArrowRight":
         handleDirectionChange(MovingDirection.right, MovingDirection.left);
         break;
-      case " ":
-        console.log("Spacebar pressed");
-        break;
     }
   };
 
