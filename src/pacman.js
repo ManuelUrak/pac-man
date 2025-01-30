@@ -98,52 +98,34 @@ export default class Pacman {
   //Getting the keyboard input
 
   #keydown = (event) => {
-    //Key up input
+    const key = event.key;
 
-    if (event.keyCode == 38) {
-      if (this.currentMovingDirection == MovingDirection.down) {
-        this.currentMovingDirection = MovingDirection.up;
+    const handleDirectionChange = (newDirection, oppositeDirection) => {
+      if (this.currentMovingDirection === oppositeDirection) {
+        this.currentMovingDirection = newDirection;
       } else {
-        this.requestedMovingDirection = MovingDirection.up;
+        this.requestedMovingDirection = newDirection;
       }
 
       this.madeFirstMove = true;
-    }
+    };
 
-    //Key down input
-
-    if (event.keyCode == 40) {
-      if (this.currentMovingDirection == MovingDirection.up) {
-        this.currentMovingDirection = MovingDirection.down;
-      } else {
-        this.requestedMovingDirection = MovingDirection.down;
-      }
-
-      this.madeFirstMove = true;
-    }
-
-    //Key left input
-
-    if (event.keyCode == 37) {
-      if (this.currentMovingDirection == MovingDirection.right) {
-        this.currentMovingDirection = MovingDirection.left;
-      } else {
-        this.requestedMovingDirection = MovingDirection.left;
-      }
-
-      this.madeFirstMove = true;
-    }
-
-    //Key right input
-
-    if (event.keyCode == 39) {
-      if (this.currentMovingDirection == MovingDirection.left) {
-        this.currentMovingDirection = MovingDirection.right;
-      } else {
-        this.requestedMovingDirection = MovingDirection.right;
-      }
-
-      this.madeFirstMove = true;
+    switch (key) {
+      case "ArrowUp":
+        handleDirectionChange(MovingDirection.up, MovingDirection.down);
+        break;
+      case "ArrowDown":
+        handleDirectionChange(MovingDirection.down, MovingDirection.up);
+        break;
+      case "ArrowLeft":
+        handleDirectionChange(MovingDirection.left, MovingDirection.right);
+        break;
+      case "ArrowRight":
+        handleDirectionChange(MovingDirection.right, MovingDirection.left);
+        break;
+      case " ":
+        console.log("Spacebar pressed");
+        break;
     }
   };
 
