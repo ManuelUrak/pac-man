@@ -21,6 +21,10 @@ export default class Pacman {
     this.wakaSound = new Audio("../sounds/waka.wav");
     this.powerDotSound = new Audio("../sounds/power_dot.wav");
 
+    this.powerDotActive = false;
+    this.powerDotAboutToExpire = false;
+    this.timers = [];
+
     this.madeFirstMove = false;
 
     document.addEventListener("keydown", this.#keydown);
@@ -217,16 +221,33 @@ export default class Pacman {
   //Play sound when Pac-Man eats a dot
 
   #eatDot() {
-    if (this.tileMap.eatDot(this.x, this.y)) {
+    if (this.tileMap.eatDot(this.x, this.y) && this.madeFirstMove) {
       this.wakaSound.play();
     }
   }
 
-  //Play sound when Pac-Man eats a power dot
+  //Play sound when Pac-Man eats a power dot and set power dot to active
 
   #eatPowerDot() {
     if (this.tileMap.eatPowerDot(this.x, this.y)) {
       this.powerDotSound.play();
+      this.powerDotActive = true;
+      this.powerDotAboutToExpire = false;
+      this.timers.forEach((timer) => clearTimeout(timer));
+      this.timers = [];
+
+      let powerDotTimer = setTimeout(() => {
+        this.powerDotActive = false;
+        this.powerDotAboutToExpire = false;
+      }, 1000 * 6);
+
+      this.timers.push(powerDotTimer);
+
+      let powerDotAboutToExpireTimer = setTimeout(() => {
+        this.powerDotAboutToExpire = true;
+      }, 1000 * 3);
+
+      this.timers.push(powerDotAboutToExpireTimer);
     }
   }
 }
