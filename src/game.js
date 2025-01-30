@@ -10,12 +10,39 @@ const velocity = 2;
 const pacman = tileMap.getPacman(velocity);
 const enemies = tileMap.getEnemies(velocity);
 
+const gameOverSound = new Audio("../sounds/gameOver.wav");
+const gameWinSound = new Audio("../sounds/gameWin.wav");
+
+let gameOver = false;
+let gameWin = false;
+
 // Game loop
 
 function gameLoop() {
   tileMap.draw(ctx);
   pacman.draw(ctx);
   enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
+  checkGameOver();
+}
+
+// Check if the game is game over
+
+function checkGameOver() {
+  if (!gameOver) {
+    gameOver = isGameOver();
+
+    if (gameOver) {
+      gameOverSound.play();
+    }
+  }
+}
+
+// Defining game over
+
+function isGameOver() {
+  return enemies.some(
+    (enemy) => !pacman.powerDotActive && enemy.collideWith(pacman)
+  );
 }
 
 // Make the Ghosts not move before Pacman does
