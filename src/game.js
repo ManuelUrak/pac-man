@@ -18,7 +18,6 @@ let gameWin = false;
 
 function gameLoop() {
   if (!pacman || !enemies) {
-    console.error("Pac-Man or enemies are undefined!");
     return;
   }
 
