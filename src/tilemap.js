@@ -26,33 +26,66 @@ export default class TileMap {
     this.powerDot = this.pinkDot;
     this.powerDotAnimationTimerDefault = 30;
     this.powerDotAnimationTimer = this.powerDotAnimationTimerDefault;
+
+    /* 
+    Map Legend:
+    1 = wall
+    0 = dots
+    4 = Pac Man
+    5 = empty space
+    6 = enemy
+    7 = power dot
+    */
+
+    //Define the map
+
+    this.maps = [
+      [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 7, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+        [1, 0, 1, 6, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 7, 1, 0, 0, 0, 1, 0, 1, 7, 1],
+        [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+        [1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ],
+      [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ],
+    ];
+
+    this.currentLevel = 0;
+    this.map = this.maps[this.currentLevel];
+    this.map = JSON.parse(JSON.stringify(this.maps[this.currentLevel]));
   }
 
-  /* 
-  Map Legend:
-  1 = wall
-  0 = dots
-  4 = Pac Man
-  5 = empty space
-  6 = enemy
-  7 = power dot
-  */
+  // Load the next level
 
-  // 2d array to define the map
+  loadNextLevel() {
+    this.currentLevel++;
+    if (this.currentLevel >= this.maps.length) {
+      this.currentLevel = 0;
+    }
+    this.map = this.maps[this.currentLevel];
+  }
 
-  map = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 7, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
-    [1, 0, 1, 6, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 7, 1, 0, 0, 0, 1, 0, 1, 7, 1],
-    [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
-    [1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  ];
+  resetCurrentLevel() {
+    this.map = this.maps[this.currentLevel];
+  }
 
   //Draw the map
 

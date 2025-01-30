@@ -1,11 +1,9 @@
-/* File for the core game functionalities */
-
 import TileMap from "./tilemap.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 32;
-let tileMap = new TileMap(tileSize);
+let tileMap = new TileMap(tileSize); // Initialize the TileMap
 const velocity = 2;
 let pacman = tileMap.getPacman(velocity);
 let enemies = tileMap.getEnemies(velocity);
@@ -19,6 +17,11 @@ let gameWin = false;
 // Game loop
 
 function gameLoop() {
+  if (!pacman || !enemies) {
+    console.error("Pac-Man or enemies are undefined!");
+    return;
+  }
+
   tileMap.draw(ctx);
   drawGameEnd();
   pacman.draw(ctx, pause(), enemies);
@@ -27,7 +30,7 @@ function gameLoop() {
   checkGameWin();
 }
 
-//Check if the game is won
+// Check if the game is won
 
 function checkGameWin() {
   if (!gameWin) {
@@ -39,7 +42,7 @@ function checkGameWin() {
   }
 }
 
-// Check if the game is game over
+// Check if the game is over
 
 function checkGameOver() {
   if (!gameOver) {
@@ -51,18 +54,15 @@ function checkGameOver() {
   }
 }
 
-// Displaying text when the game is won or game over
+// Display text when the game is won or over
 
 function drawGameEnd() {
   if (gameOver || gameWin) {
-    let text = "Level Clear!";
-
-    if (gameOver) {
-      text = "Game Over!";
-    }
+    let text = gameWin ? "Level Clear!" : "Game Over!";
+    let subText = gameWin ? "Press Space to Proceed" : "Press Space to Restart";
 
     ctx.fillStyle = "black";
-    ctx.fillRect(0, canvas.height / 3.2, canvas.width, 80);
+    ctx.fillRect(0, canvas.height / 3.2, canvas.width, 120);
 
     ctx.font = "80px comic sans";
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -75,11 +75,11 @@ function drawGameEnd() {
 
     ctx.font = "30px comic sans";
     ctx.fillStyle = "white";
-    ctx.fillText("Press Spacebar to Restart", 50, canvas.height / 2 + 50);
+    ctx.fillText(subText, 50, canvas.height / 2 + 50);
   }
 }
 
-// Defining game over
+// Define game over
 
 function isGameOver() {
   return enemies.some(
@@ -87,28 +87,45 @@ function isGameOver() {
   );
 }
 
-// Reset game state when the game is game over
+// Pause the game if it's over or won
+
+function pause() {
+  return !pacman.madeFirstMove || gameOver || gameWin;
+}
+
+// Reset the game state
 
 function resetGame() {
   tileMap = new TileMap(tileSize);
   pacman = tileMap.getPacman(velocity);
   enemies = tileMap.getEnemies(velocity);
   gameOver = false;
+  gameWin = false;
 }
 
+// Progress to the next level
+
+function nextLevel() {
+  tileMap.loadNextLevel();
+  pacman = tileMap.getPacman(velocity);
+  enemies = tileMap.getEnemies(velocity);
+  gameOver = false;
+  gameWin = false;
+}
+
+// Listen for spacebar to restart or progress to the next level
+
 document.addEventListener("keydown", (event) => {
-  if (gameOver && event.key === " ") {
-    resetGame();
+  if (event.key === " ") {
+    if (gameOver) {
+      resetGame();
+    } else if (gameWin) {
+      nextLevel();
+    }
   }
 });
 
-// Make the Ghosts not move before Pacman does and stop the game when it is game over or the game is won
-
-function pause() {
-  return !pacman.madeFirstMove || gameOver || gameWin;
-}
-
-// Define the canvas size
+// Set canvas size
 
 tileMap.setCanvasSize(canvas);
 
