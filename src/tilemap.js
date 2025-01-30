@@ -128,6 +128,12 @@ export default class TileMap {
     ctx.drawImage(this.powerDot, column * size, row * size, size, size);
   }
 
+  // Return the sum of the dots that are currently on the map
+
+  #dotsLeft() {
+    return this.map.flat().filter((tile) => tile === 0).length;
+  }
+
   //Return Pac-Man to the map
 
   getPacman(velocity) {
@@ -267,5 +273,11 @@ export default class TileMap {
     } else {
       return false;
     }
+  }
+
+  // Define a game win
+
+  didWin() {
+    return this.#dotsLeft() === 0;
   }
 }

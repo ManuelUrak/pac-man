@@ -23,6 +23,19 @@ function gameLoop() {
   pacman.draw(ctx, pause(), enemies);
   enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
   checkGameOver();
+  checkGameWin();
+}
+
+//Check if the game is won
+
+function checkGameWin() {
+  if (!gameWin) {
+    gameWin = tileMap.didWin();
+
+    if (gameWin) {
+      gameWinSound.play();
+    }
+  }
 }
 
 // Check if the game is game over
@@ -45,10 +58,10 @@ function isGameOver() {
   );
 }
 
-// Make the Ghosts not move before Pacman does and stop the game when it is game over
+// Make the Ghosts not move before Pacman does and stop the game when it is game over or the game is won
 
 function pause() {
-  return !pacman.madeFirstMove || gameOver;
+  return !pacman.madeFirstMove || gameOver || gameWin;
 }
 
 // Define the canvas size
