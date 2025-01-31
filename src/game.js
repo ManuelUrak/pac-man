@@ -22,6 +22,8 @@ let score = 0;
 const scoreElement = document.getElementById("score");
 const levelElement = document.getElementById("level");
 
+const highScoresElement = document.getElementById("high-scores");
+
 // Game loop
 
 function gameLoop() {
@@ -47,7 +49,7 @@ function updateLevelDisplay() {
   levelElement.textContent = `Level: ${tileMap.currentLevel + 1}`;
 }
 
-// Check if the game is won
+// Check if the game is won and if the player cleared all levels
 
 function checkGameWin() {
   if (!gameWin) {
@@ -55,6 +57,10 @@ function checkGameWin() {
 
     if (gameWin) {
       gameWinSound.play();
+
+      if (tileMap.currentLevel === tileMap.maps.length - 1) {
+        saveHighScore();
+      }
     }
   }
 }
@@ -67,6 +73,7 @@ function checkGameOver() {
 
     if (gameOver) {
       gameOverSound.play();
+      saveHighScore();
     }
   }
 }
@@ -193,9 +200,41 @@ function onGhostEaten() {
   updateScoreDisplay();
 }
 
+// Save the highscore
+
+function saveHighScore() {
+  const playerName = prompt("Enter your name:");
+
+  if (playerName) {
+    const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+    highScores.push({ name: playerName, score: score });
+    highScores.sort((a, b) => b.score - a.score);
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    renderHighScores();
+  }
+}
+
+// Render the highscores to the HTML
+
+function renderHighScores() {
+  const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  highScoresElement.innerHTML = "<h2>Highscores</h2>";
+  highScores.forEach((entry, index) => {
+    const scoreEntry = document.createElement("div");
+    scoreEntry.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+    highScoresElement.appendChild(scoreEntry);
+  });
+}
+
 // Attach scoring callbacks to Pac-Man
 
 attachScoringCallbacks();
+
+// Render highscores on page load
+
+renderHighScores();
 
 // Set canvas size
 
