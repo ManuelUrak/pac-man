@@ -26,6 +26,60 @@
       #gameCanvas {
         box-shadow: 10px 10px 20px black;
       }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        width: 300px;
+      }
+
+      .modal-content h2 {
+        margin-bottom: 15px;
+        font-family: "Comic Sans MS", cursive;
+        color: white;
+      }
+
+      .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        font-family: "Comic Sans MS", cursive;
+      }
+
+      .modal-content button {
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-family: "Comic Sans MS", cursive;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .modal-content button:hover {
+        background-color: #ff4a3d;
+      }
     </style>
   </head>
   <body>
@@ -39,5 +93,12 @@
     </div>
     <div id="high-scores"></div>
     <script src="src/game.js" type="module"></script>
+    <div id="custom-prompt" class="modal">
+      <div class="modal-content">
+        <h2>Enter Your Name</h2>
+        <input type="text" id="player-name" placeholder="Your name" />
+        <button id="submit-name">Submit</button>
+      </div>
+    </div>
   </body>
 </html>

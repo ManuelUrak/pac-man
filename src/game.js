@@ -203,16 +203,28 @@ function onGhostEaten() {
 // Save the highscore
 
 function saveHighScore() {
-  const playerName = prompt("Enter your name:");
+  const modal = document.getElementById("custom-prompt");
+  const playerNameInput = document.getElementById("player-name");
+  const submitButton = document.getElementById("submit-name");
 
-  if (playerName) {
-    const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+  modal.style.display = "flex";
 
-    highScores.push({ name: playerName, score: score });
-    highScores.sort((a, b) => b.score - a.score);
-    localStorage.setItem("highScores", JSON.stringify(highScores));
-    renderHighScores();
-  }
+  submitButton.onclick = () => {
+    const playerName = playerNameInput.value.trim();
+
+    if (playerName) {
+      const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+      highScores.push({ name: playerName, score: score });
+      highScores.sort((a, b) => b.score - a.score);
+      localStorage.setItem("highScores", JSON.stringify(highScores));
+      renderHighScores();
+
+      modal.style.display = "none";
+      playerNameInput.value = "";
+    } else {
+      alert("Please enter your name!");
+    }
+  };
 }
 
 // Render the highscores to the HTML
