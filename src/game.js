@@ -3,9 +3,12 @@ import TileMap from "./tilemap.js";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 32;
-let tileMap = new TileMap(tileSize); // Initialize the TileMap
+let tileMap = new TileMap(tileSize);
 const velocity = 2;
 let pacman = tileMap.getPacman(velocity);
+pacman.onDotEaten = onDotEaten;
+pacman.onPowerDotEaten = onPowerDotEaten;
+pacman.onGhostEaten = onGhostEaten;
 let enemies = tileMap.getEnemies(velocity);
 
 const gameOverSound = new Audio("../sounds/gameOver.wav");
@@ -13,6 +16,11 @@ const gameWinSound = new Audio("../sounds/gameWin.wav");
 
 let gameOver = false;
 let gameWin = false;
+
+let score = 0;
+
+const scoreElement = document.getElementById("score");
+const levelElement = document.getElementById("level");
 
 // Game loop
 
@@ -23,6 +31,20 @@ function gameLoop() {
   enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
   checkGameOver();
   checkGameWin();
+  updateScoreDisplay();
+  updateLevelDisplay();
+}
+
+// Update the score display
+
+function updateScoreDisplay() {
+  scoreElement.textContent = `Score: ${score}`;
+}
+
+// Update the level display
+
+function updateLevelDisplay() {
+  levelElement.textContent = `Level: ${tileMap.currentLevel + 1}`;
 }
 
 // Check if the game is won
@@ -102,6 +124,14 @@ function pause() {
   return !pacman.madeFirstMove || gameOver || gameWin;
 }
 
+// Attach scoring callbacks to Pac-Man
+
+function attachScoringCallbacks() {
+  pacman.onDotEaten = onDotEaten;
+  pacman.onPowerDotEaten = onPowerDotEaten;
+  pacman.onGhostEaten = onGhostEaten;
+}
+
 // Reset the game state
 
 function resetGame() {
@@ -110,6 +140,8 @@ function resetGame() {
   enemies = tileMap.getEnemies(velocity);
   gameOver = false;
   gameWin = false;
+  score = 0;
+  attachScoringCallbacks();
 }
 
 // Progress to the next level
@@ -120,6 +152,12 @@ function nextLevel() {
   enemies = tileMap.getEnemies(velocity);
   gameOver = false;
   gameWin = false;
+
+  if (tileMap.currentLevel === 0) {
+    score = 0;
+  }
+
+  attachScoringCallbacks();
 }
 
 // Listen for spacebar to restart or progress to the next level
@@ -133,6 +171,31 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
+
+// Update the score when Pac-Man eats a dot
+
+function onDotEaten() {
+  score += 10;
+  updateScoreDisplay();
+}
+
+// Update the score when Pac-Man eats a power dot
+
+function onPowerDotEaten() {
+  score += 50;
+  updateScoreDisplay();
+}
+
+// Update the score when Pac-Man eats a Ghost
+
+function onGhostEaten() {
+  score += 100;
+  updateScoreDisplay();
+}
+
+// Attach scoring callbacks to Pac-Man
+
+attachScoringCallbacks();
 
 // Set canvas size
 

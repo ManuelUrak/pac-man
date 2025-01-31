@@ -28,6 +28,10 @@ export default class Pacman {
 
     this.madeFirstMove = false;
 
+    this.onDotEaten = null;
+    this.onPowerDotEaten = null;
+    this.onGhostEaten = null;
+
     document.addEventListener("keydown", this.#keydown);
 
     this.#loadPacmanImages();
@@ -202,15 +206,19 @@ export default class Pacman {
     }
   }
 
-  //Play sound when Pac-Man eats a dot
+  //Play sound when Pac-Man eats a dot and update the score
 
   #eatDot() {
     if (this.tileMap.eatDot(this.x, this.y) && this.madeFirstMove) {
       this.wakaSound.play();
+
+      if (this.onDotEaten) {
+        this.onDotEaten();
+      }
     }
   }
 
-  //Play sound when Pac-Man eats a power dot and set power dot to active
+  //Play sound when Pac-Man eats a power dot and set power dot to active and update the score
 
   #eatPowerDot() {
     if (this.tileMap.eatPowerDot(this.x, this.y)) {
@@ -232,10 +240,14 @@ export default class Pacman {
       }, 1000 * 3);
 
       this.timers.push(powerDotAboutToExpireTimer);
+
+      if (this.onPowerDotEaten) {
+        this.onPowerDotEaten();
+      }
     }
   }
 
-  // Make Pac-Man be able to eat a ghost when the power dot is active and play a sound
+  // Make Pac-Man be able to eat a ghost when the power dot is active and play a sound and update the score
 
   #eatGhost(enemies) {
     if (this.powerDotActive) {
@@ -244,6 +256,10 @@ export default class Pacman {
       collideEnemies.forEach((enemy) => {
         enemies.splice(enemies.indexOf(enemy), 1);
         this.eatGhostSound.play();
+
+        if (this.onGhostEaten) {
+          this.onGhostEaten();
+        }
       });
     }
   }
