@@ -17,10 +17,6 @@ let gameWin = false;
 // Game loop
 
 function gameLoop() {
-  if (!pacman || !enemies) {
-    return;
-  }
-
   tileMap.draw(ctx);
   drawGameEnd();
   pacman.draw(ctx, pause(), enemies);

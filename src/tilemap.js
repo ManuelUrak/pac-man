@@ -28,13 +28,21 @@ export default class TileMap {
     this.powerDotAnimationTimerDefault = 30;
     this.powerDotAnimationTimer = this.powerDotAnimationTimerDefault;
 
-    //Define the map
+    //Define the maps
 
     this.maps = tilemaps;
-
     this.currentLevel = 0;
-    this.map = this.maps[this.currentLevel];
-    this.map = JSON.parse(JSON.stringify(this.maps[this.currentLevel]));
+    this.map = this.#getMapCopy(this.currentLevel);
+  }
+
+  //Deep copy the map
+
+  #getMapCopy(level) {
+    if (level < 0 || level >= this.maps.length) {
+      throw new Error(`Invalid Level: ${level}`);
+    }
+
+    return JSON.parse(JSON.stringify(this.maps[level]));
   }
 
   // Load the next level
@@ -44,11 +52,11 @@ export default class TileMap {
     if (this.currentLevel >= this.maps.length) {
       this.currentLevel = 0;
     }
-    this.map = this.maps[this.currentLevel];
+    this.map = this.#getMapCopy(this.currentLevel);
   }
 
   resetCurrentLevel() {
-    this.map = this.maps[this.currentLevel];
+    this.map = this.#getMapCopy(this.currentLevel);
   }
 
   //Draw the map
