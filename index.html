@@ -7,7 +7,8 @@
     <style>
       body {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         overflow: hidden;
         height: 100vh;
         background: linear-gradient(
@@ -25,6 +26,37 @@
 
       #gameCanvas {
         box-shadow: 10px 10px 20px black;
+      }
+
+      .information {
+        width: 608px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #score {
+        font-family: comic sans MS;
+        font-size: 25px;
+        color: red;
+      }
+
+      #level {
+        font-family: comic sans MS;
+        font-size: 25px;
+        color: red;
+      }
+
+      #high-scores {
+        h2 {
+          color: black;
+          font-family: comic sans MS;
+        }
+
+        div {
+          color: black;
+          font-family: comic sans MS;
+          font-size: 20px;
+        }
       }
 
       .modal {
@@ -47,6 +79,9 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         text-align: center;
         width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
       .modal-content h2 {
