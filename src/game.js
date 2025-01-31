@@ -54,10 +54,24 @@ function checkGameOver() {
 function drawGameEnd() {
   if (gameOver || gameWin) {
     let text = gameWin ? "Level Clear!" : "Game Over!";
-    let subText = gameWin ? "Press Space to Proceed" : "Press Space to Restart";
+    let subText = "";
+
+    if (gameWin) {
+      if (tileMap.currentLevel === tileMap.maps.length - 1) {
+        text = "Congratulations!";
+        subText = "You've cleared all levels. Press Space to restart.";
+      } else {
+        subText = "Press Space to Proceed";
+      }
+    } else if (gameOver) {
+      subText = "Press Space to Restart";
+    }
 
     ctx.fillStyle = "black";
     ctx.fillRect(0, canvas.height / 3.2, canvas.width, 120);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
     ctx.font = "80px comic sans";
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -66,11 +80,11 @@ function drawGameEnd() {
     gradient.addColorStop("1.0", "red");
 
     ctx.fillStyle = gradient;
-    ctx.fillText(text, 10, canvas.height / 2);
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 20);
 
     ctx.font = "30px comic sans";
     ctx.fillStyle = "white";
-    ctx.fillText(subText, 50, canvas.height / 2 + 50);
+    ctx.fillText(subText, canvas.width / 2, canvas.height / 2 + 40);
   }
 }
 
