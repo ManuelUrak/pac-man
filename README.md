@@ -2,13 +2,13 @@
 
 ## Description
 
-This is Pac-Man game developed by me. It's made with object oriented Javascript. No libraries or frameworks has been used.
+This is a Pac-Man game developed by me. It's made with object oriented Javascript. No libraries or frameworks has been used.
 
 The assets used I found online.
 
 As of now, the game features 6 levels, a scoreboard, a highscore display using the browsers local storage and soundeffects that I also found online.
 
-Future updates will include different worlds (every world will have 6 levels) with different assets, the introduction of new items for Pac-Man to eat and possibly a different AI for every ghost (as of right now the every ghost shares the same AI, which is pretty dumb).
+Future updates will include different worlds (every world will have 6 levels) with different assets, the introduction of new items for Pac-Man to eat and possibly a different AI for every ghost (as of right now every ghost shares the same AI, which is pretty dumb).
 
 Feel free to fork this, edit the code, expand the project or sending me pull requests.
 
