@@ -37,7 +37,7 @@ Feel free to fork this, edit the code, expand the project or sending me pull req
 2. Open the project in your IDE.
 3. Install a local server by running 'npm install -g http-server' in your IDEs terminal.
 4. Run the server by running 'http-server' in your IDEs terminal.
-5. Open the index.html file with your prefered browser.
+5. Open the IP provided from your http-server with your prefered browser.
 6. Enjoy the game!
 
 ## License
