@@ -14,6 +14,10 @@ Feel free to fork this, edit the code, expand the project or sending me pull req
 
 ## Changelog
 
+[1.0.1] - 2025-02-03
+
+    Fixed a bug that made the game freeze after completing level 5.
+
 [1.0.0] - 2025-02-01
 
     Initial release.
